@@ -17,9 +17,9 @@ Import-Module OSD -Force
 #=======================================================================
 $Params = @{
     OSVersion = "Windows 11"
-    OSBuild = "23H2"
-    OSEdition = "Pro"
-    OSLanguage = "en-us"
+    OSBuild = "24H2"
+    OSEdition = "Enterprise"
+    OSLanguage = "en-GB"
     OSLicense = "Retail"
     ZTI = $true
     Firmware = $false
@@ -32,11 +32,8 @@ Start-OSDCloud @Params
 Write-Host -ForegroundColor Green "Create C:\ProgramData\OSDeploy\OSDeploy.OOBEDeploy.json"
 $OOBEDeployJson = @'
 {
-    "AddNetFX3":  {
-                      "IsPresent":  true
-                  },
     "Autopilot":  {
-                      "IsPresent":  false
+                      "IsPresent":  True
                   },
     "RemoveAppx":  [
                     "MicrosoftTeams",
@@ -87,30 +84,28 @@ Write-Host -ForegroundColor Green "Define Computername:"
 $Serial = Get-WmiObject Win32_bios | Select-Object -ExpandProperty SerialNumber
 $TargetComputername = $Serial.Substring(4,3)
 
-$AssignedComputerName = "AkosCloud-$TargetComputername"
+$AssignedComputerName = "BRUNELCARE-$TargetComputername"
 Write-Host -ForegroundColor Red $AssignedComputerName
 Write-Host ""
 
 Write-Host -ForegroundColor Green "Create C:\ProgramData\OSDeploy\OSDeploy.AutopilotOOBE.json"
 $AutopilotOOBEJson = @"
 {
-    "AssignedComputerName" : "$AssignedComputerName",
-    "AddToGroup":  "AADGroupX",
+    "AssignedComputerName": "$AssignedComputerName",
     "Assign":  {
                    "IsPresent":  true
                },
-    "GroupTag":  "GroupTagXXX",
+    "GroupTag":  "StaffDevice",
+    GroupTagOptions = 'Development','Enterprise'
     "Hidden":  [
                    "AddToGroup",
                    "AssignedUser",
-                   "PostAction",
-                   "GroupTag",
-                   "Assign"
+                   "PostAction"
                ],
     "PostAction":  "Quit",
     "Run":  "NetworkingWireless",
     "Docs":  "https://google.com/",
-    "Title":  "Autopilot Manual Register"
+    "Title":  "OSDeploy Autopilot Registration"
 }
 "@
 
@@ -123,8 +118,8 @@ $AutopilotOOBEJson | Out-File -FilePath "C:\ProgramData\OSDeploy\OSDeploy.Autopi
 #  [PostOS] OOBE CMD Command Line
 #================================================
 Write-Host -ForegroundColor Green "Downloading and creating script for OOBE phase"
-Invoke-RestMethod https://raw.githubusercontent.com/AkosBakos/OSDCloud/main/Set-KeyboardLanguage.ps1 | Out-File -FilePath 'C:\Windows\Setup\scripts\keyboard.ps1' -Encoding ascii -Force
-Invoke-RestMethod https://raw.githubusercontent.com/AkosBakos/OSDCloud/main/Install-EmbeddedProductKey.ps1 | Out-File -FilePath 'C:\Windows\Setup\scripts\productkey.ps1' -Encoding ascii -Force
+Invoke-RestMethod https://raw.githubusercontent.com/BrunelcareGit/OSDCloud/main/Set-KeyboardLanguage.ps1 | Out-File -FilePath 'C:\Windows\Setup\scripts\keyboard.ps1' -Encoding ascii -Force
+Invoke-RestMethod https://raw.githubusercontent.com/BrunelcareGit/OSDCloud/main/Install-EmbeddedProductKey.ps1 | Out-File -FilePath 'C:\Windows\Setup\scripts\productkey.ps1' -Encoding ascii -Force
 Invoke-RestMethod https://check-autopilotprereq.osdcloud.ch | Out-File -FilePath 'C:\Windows\Setup\scripts\autopilotprereq.ps1' -Encoding ascii -Force
 Invoke-RestMethod https://start-autopilotoobe.osdcloud.ch | Out-File -FilePath 'C:\Windows\Setup\scripts\autopilotoobe.ps1' -Encoding ascii -Force
 
