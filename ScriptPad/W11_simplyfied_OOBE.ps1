@@ -96,7 +96,7 @@ $AutopilotOOBEJson = @"
                    "IsPresent":  true
                },
     "GroupTag":  "StaffDevice",
-    GroupTagOptions = 'Development','Enterprise'
+    GroupTagOptions = 'ITDevice','StaffDevice'
     "Hidden":  [
                    "AddToGroup",
                    "AssignedUser",
