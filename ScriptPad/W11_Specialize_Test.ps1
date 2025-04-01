@@ -17,9 +17,9 @@ Import-Module OSD -Force
 #=======================================================================
 $Params = @{
     OSVersion = "Windows 11"
-    OSBuild = "23H2"
+    OSBuild = "24H2"
     OSEdition = "Pro"
-    OSLanguage = "en-us"
+    OSLanguage = "en-GB"
     OSLicense = "Retail"
     ZTI = $true
     Firmware = $false
@@ -87,7 +87,7 @@ Write-Host -ForegroundColor Green "Define Computername:"
 $Serial = Get-WmiObject Win32_bios | Select-Object -ExpandProperty SerialNumber
 $TargetComputername = $Serial.Substring(4,3)
 
-$AssignedComputerName = "AkosCloud-$TargetComputername"
+$AssignedComputerName = "BRUNEL-$TargetComputername"
 Write-Host -ForegroundColor Red $AssignedComputerName
 Write-Host ""
 
@@ -95,11 +95,10 @@ Write-Host -ForegroundColor Green "Create C:\ProgramData\OSDeploy\OSDeploy.Autop
 $AutopilotOOBEJson = @"
 {
     "AssignedComputerName" : "$AssignedComputerName",
-    "AddToGroup":  "AADGroupX",
     "Assign":  {
                    "IsPresent":  true
                },
-    "GroupTag":  "GroupTagXXX",
+    "GroupTag":  "TestDeploy",
     "Hidden":  [
                    "AddToGroup",
                    "AssignedUser",
