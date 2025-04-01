@@ -33,7 +33,7 @@ Write-Host -ForegroundColor Green "Create C:\ProgramData\OSDeploy\OSDeploy.OOBED
 $OOBEDeployJson = @'
 {
     "Autopilot":  {
-                      "IsPresent":  True
+                      "IsPresent":  false
                   },
     "RemoveAppx":  [
                     "MicrosoftTeams",
