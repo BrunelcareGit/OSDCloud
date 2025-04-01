@@ -84,30 +84,33 @@ Write-Host -ForegroundColor Green "Define Computername:"
 $Serial = Get-WmiObject Win32_bios | Select-Object -ExpandProperty SerialNumber
 $TargetComputername = $Serial.Substring(4,3)
 
-$AssignedComputerName = "BRUNELCARE-$TargetComputername"
+$AssignedComputerName = "BC-$TargetComputername"
 Write-Host -ForegroundColor Red $AssignedComputerName
 Write-Host ""
 
 Write-Host -ForegroundColor Green "Create C:\ProgramData\OSDeploy\OSDeploy.AutopilotOOBE.json"
-$AutopilotOOBEJson = @"
+$AutopilotOOBEJson = @'
 {
-    "AssignedComputerName": "$AssignedComputerName",
     "Assign":  {
                    "IsPresent":  true
                },
-    "GroupTag":  "StaffDevice",
-    GroupTagOptions = 'ITDevice','StaffDevice'
+    "GroupTag":  "Enterprise",
+    "GroupTagOptions":  [
+                            "Development",
+                            "Enterprise"
+                        ],
     "Hidden":  [
                    "AddToGroup",
+                   "AssignedComputerName",
                    "AssignedUser",
                    "PostAction"
                ],
     "PostAction":  "Quit",
     "Run":  "NetworkingWireless",
-    "Docs":  "https://google.com/",
+    "Docs":  "https://autopilotoobe.osdeploy.com/",
     "Title":  "OSDeploy Autopilot Registration"
 }
-"@
+'@
 
 If (!(Test-Path "C:\ProgramData\OSDeploy")) {
     New-Item "C:\ProgramData\OSDeploy" -ItemType Directory -Force | Out-Null
@@ -121,7 +124,7 @@ Write-Host -ForegroundColor Green "Downloading and creating script for OOBE phas
 Invoke-RestMethod https://raw.githubusercontent.com/BrunelcareGit/OSDCloud/main/Set-KeyboardLanguage.ps1 | Out-File -FilePath 'C:\Windows\Setup\scripts\keyboard.ps1' -Encoding ascii -Force
 Invoke-RestMethod https://raw.githubusercontent.com/BrunelcareGit/OSDCloud/main/Install-EmbeddedProductKey.ps1 | Out-File -FilePath 'C:\Windows\Setup\scripts\productkey.ps1' -Encoding ascii -Force
 Invoke-RestMethod https://check-autopilotprereq.osdcloud.ch | Out-File -FilePath 'C:\Windows\Setup\scripts\autopilotprereq.ps1' -Encoding ascii -Force
-Invoke-RestMethod https://start-autopilotoobe.osdcloud.ch | Out-File -FilePath 'C:\Windows\Setup\scripts\autopilotoobe.ps1' -Encoding ascii -Force
+'Invoke-RestMethod https://start-autopilotoobe.osdcloud.ch | Out-File -FilePath 'C:\Windows\Setup\scripts\autopilotoobe.ps1' -Encoding ascii -Force
 
 
 $OOBECMD = @'
