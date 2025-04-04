@@ -123,32 +123,27 @@ $AutopilotOOBEJson | Out-File -FilePath "C:\ProgramData\OSDeploy\OSDeploy.Autopi
 #================================================
 #  [PostOS] AutopilotOOBE CMD Command Line
 #================================================
-Write-Host -ForegroundColor Green "Create C:\Windows\System32\OOBE.cmd"
-$OOBECMD = @'
-PowerShell -NoL -Com Set-ExecutionPolicy RemoteSigned -Force
-Set Path = %PATH%;C:\Program Files\WindowsPowerShell\Scripts
-Start /Wait PowerShell -NoL -C Install-Module AutopilotOOBE -Force -Verbose
-Start /Wait PowerShell -NoL -C Install-Module OSD -Force -Verbose
-Start /Wait PowerShell -NoL -C Invoke-WebPSScript https://raw.githubusercontent.com/BrunelcareGit/OSDCloud/main/Set-KeyboardLanguage.ps1
-Start /Wait PowerShell -NoL -C Invoke-WebPSScript https://raw.githubusercontent.com/BrunelcareGit/OSDCloud/main/Install-EmbeddedProductKey.ps1
-Start /Wait PowerShell -NoL -C Invoke-WebPSScript https://raw.githubusercontent.com/BrunelcareGit/OSDCloud/main/AP-Prereq.ps1
-Start /Wait PowerShell -NoL -C Invoke-WebPSScript https://raw.githubusercontent.com/BrunelcareGit/OSDCloud/main/Start-AutopilotOOBE.ps1
-Start /Wait PowerShell -NoL -C Start-OOBEDeploy
-Start /Wait PowerShell -NoL -C Invoke-WebPSScript https://raw.githubusercontent.com/BrunelcareGit/OSDCloud/main/TPM.ps1
-Start /Wait PowerShell -NoL -C Invoke-WebPSScript https://raw.githubusercontent.com/BrunelcareGit/OSDCloud/main/CleanUp.ps1
-Start /Wait PowerShell -NoL -C Restart-Computer -Force
-'@
-$OOBECMD | Out-File -FilePath 'C:\Windows\System32\OOBE.cmd' -Encoding ascii -Force
+Write-Host -ForegroundColor Green "Downloading and creating script for OOBE phase"
+Invoke-RestMethod https://raw.githubusercontent.com/BrunelcareGit/OSDCloud/main/Set-KeyboardLanguage.ps1 | Out-File -FilePath 'C:\Windows\Setup\scripts\keyboard.ps1' -Encoding ascii -Force
+Invoke-RestMethod https://raw.githubusercontent.com/BrunelcareGit/OSDCloud/main/Install-EmbeddedProductKey.ps1 | Out-File -FilePath 'C:\Windows\Setup\scripts\productkey.ps1' -Encoding ascii -Force
+Invoke-RestMethod https://raw.githubusercontent.com/BrunelcareGit/OSDCloud/main/AP-Prereq.ps1 | Out-File -FilePath 'C:\Windows\Setup\scripts\autopilotprereq.ps1' -Encoding ascii -Force
+Invoke-RestMethod https://raw.githubusercontent.com/BrunelcareGit/OSDCloud/main/Start-AutopilotOOBE.ps1 | Out-File -FilePath 'C:\Windows\Setup\scripts\autopilotoobe.ps1' -Encoding ascii -Force
 
-#================================================
-#  [PostOS] SetupComplete CMD Command Line
-#================================================
-Write-Host -ForegroundColor Green "Create C:\Windows\Setup\Scripts\SetupComplete.cmd"
-$SetupCompleteCMD = @'
-powershell.exe -Command Set-ExecutionPolicy RemoteSigned -Force
-powershell.exe -Command "& {IEX (IRM https://raw.githubusercontent.com/BrunelcareGit/OSDCloud/main/oobetasks.ps1)}"
+
+$OOBECMD = @'
+@echo off
+# Execute OOBE Tasks
+start /wait powershell.exe -NoL -ExecutionPolicy Bypass -F C:\Windows\Setup\Scripts\keyboard.ps1
+start /wait powershell.exe -NoL -ExecutionPolicy Bypass -F C:\Windows\Setup\Scripts\productkey.ps1
+start /wait powershell.exe -NoL -ExecutionPolicy Bypass -F C:\Windows\Setup\Scripts\autopilotprereq.ps1
+start /wait powershell.exe -NoL -ExecutionPolicy Bypass -F C:\Windows\Setup\Scripts\autopilotoobe.ps1
+
+# Below a PS session for debug and testing in system context, # when not needed 
+# start /wait powershell.exe -NoL -ExecutionPolicy Bypass
+
+exit 
 '@
-$SetupCompleteCMD | Out-File -FilePath 'C:\Windows\Setup\Scripts\SetupComplete.cmd' -Encoding ascii -Force
+$OOBECMD | Out-File -FilePath 'C:\Windows\Setup\scripts\oobe.cmd' -Encoding ascii -Force
 
 #=======================================================================
 #   Restart-Computer
