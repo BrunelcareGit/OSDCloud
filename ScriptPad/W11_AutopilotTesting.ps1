@@ -82,7 +82,7 @@ $OOBEDeployJson | Out-File -FilePath "C:\ProgramData\OSDeploy\OSDeploy.OOBEDeplo
 #================================================
 Write-Host -ForegroundColor Green "Define Computername:"
 $Serial = Get-WmiObject Win32_bios | Select-Object -ExpandProperty SerialNumber
-$TargetComputername = $Serial.Substring(3,3)
+$TargetComputername = $Serial.Substring(4,3)
 
 $AssignedComputerName = "Brunel-$TargetComputername"
 Write-Host -ForegroundColor Red $AssignedComputerName
@@ -103,6 +103,8 @@ $AutopilotOOBEJson = @"
                    "IT"
                ],
     "Hidden":  [
+                   "AddToGroup",
+                   "AssignedUser",
                    "PostAction",
                    "Assign"
                ],
