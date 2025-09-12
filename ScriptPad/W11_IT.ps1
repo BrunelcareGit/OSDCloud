@@ -132,7 +132,7 @@ Start /Wait PowerShell -NoL -C Invoke-WebPSScript https://raw.githubusercontent.
 # Start /Wait PowerShell -NoL -C Invoke-WebPSScript https://raw.githubusercontent.com/BrunelcareGit/OSDCloud/main/Start-AutopilotOOBE.ps1
 Start /Wait PowerShell -NoL -C Start-OOBEDeploy
 # Start /Wait PowerShell -NoL -C Invoke-WebPSScript https://raw.githubusercontent.com/BrunelcareGit/OSDCloud/main/TPM.ps1
-# Start /Wait PowerShell -NoL -C Invoke-WebPSScript https://raw.githubusercontent.com/BrunelcareGit/OSDCloud/main/CleanUp.ps1
+Start /Wait PowerShell -NoL -C Invoke-WebPSScript https://raw.githubusercontent.com/BrunelcareGit/OSDCloud/main/CleanUp.ps1
 Start /Wait PowerShell -NoL -C Restart-Computer -Force
 '@
 $OOBECMD | Out-File -FilePath 'C:\Windows\System32\Autopilot.cmd' -Encoding ascii -Force
