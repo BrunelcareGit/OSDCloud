@@ -95,12 +95,15 @@ $AutopilotOOBEJson = @"
     "Assign":  {
                    "IsPresent":  true
                },
-    "GroupTag":  "Standard",
+    "GroupTag":  "WIN-AP-CORP",
     "GroupTagOptions": [
-                   "Standard",
-                   "Finance",
-                   "HR",
-                   "IT"
+                   "WIN-AP-CORP",
+                   "WIN-AP-Finance",
+                   "WIN-AP-HR",
+                   "WIN-AP-Housing",
+                   "WIN-AP-Care",
+                   "WIN-AP-Community",
+                   "WIN-AP-IT"
                ],
     "Hidden":  [
                    "AddToGroup",
@@ -156,3 +159,4 @@ $OOBECMD | Out-File -FilePath 'C:\Windows\System32\Autopilot.cmd' -Encoding asci
 Write-Host  -ForegroundColor Green "Restarting in 60 seconds!  Press Shift+F10 on the first screen, in the command window type 'autopilot.cmd' to enroll device and finish installation"
 Start-Sleep -Seconds 60
 wpeutil reboot
+
