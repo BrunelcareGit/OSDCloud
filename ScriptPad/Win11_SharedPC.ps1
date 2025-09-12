@@ -95,7 +95,7 @@ $AutopilotOOBEJson = @"
     "Assign":  {
                    "IsPresent":  true
                },
-    "GroupTag":  "Standard",
+    "GroupTag":  "WIN-AP-SharedPC",
     "GroupTagOptions": [
                    "WIN-AP-SharedPC"                   
                ],
