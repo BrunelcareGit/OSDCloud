@@ -124,12 +124,12 @@ Write-Host -ForegroundColor Green "Create C:\Windows\System32\Autopilot.cmd"
 $OOBECMD = @'
 PowerShell -NoL -Com Set-ExecutionPolicy RemoteSigned -Force
 Set Path = %PATH%;C:\Program Files\WindowsPowerShell\Scripts
-# Start /Wait PowerShell -NoL -C Install-Module AutopilotOOBE -Force -Verbose
+Start /Wait PowerShell -NoL -C Install-Module AutopilotOOBE -Force -Verbose
 Start /Wait PowerShell -NoL -C Install-Module OSD -Force -Verbose
 Start /Wait PowerShell -NoL -C Invoke-WebPSScript https://raw.githubusercontent.com/BrunelcareGit/OSDCloud/main/Set-KeyboardLanguage.ps1
 Start /Wait PowerShell -NoL -C Invoke-WebPSScript https://raw.githubusercontent.com/BrunelcareGit/OSDCloud/main/Install-EmbeddedProductKey.ps1
-# Start /Wait PowerShell -NoL -C Invoke-WebPSScript https://raw.githubusercontent.com/BrunelcareGit/OSDCloud/main/AP-Prereq.ps1
-# Start /Wait PowerShell -NoL -C Invoke-WebPSScript https://raw.githubusercontent.com/BrunelcareGit/OSDCloud/main/Start-AutopilotOOBE.ps1
+Start /Wait PowerShell -NoL -C Invoke-WebPSScript https://raw.githubusercontent.com/BrunelcareGit/OSDCloud/main/AP-Prereq.ps1
+Start /Wait PowerShell -NoL -C Invoke-WebPSScript https://raw.githubusercontent.com/BrunelcareGit/OSDCloud/main/Start-AutopilotOOBE.ps1
 Start /Wait PowerShell -NoL -C Start-OOBEDeploy
 # Start /Wait PowerShell -NoL -C Invoke-WebPSScript https://raw.githubusercontent.com/BrunelcareGit/OSDCloud/main/TPM.ps1
 Start /Wait PowerShell -NoL -C Invoke-WebPSScript https://raw.githubusercontent.com/BrunelcareGit/OSDCloud/main/CleanUp.ps1
