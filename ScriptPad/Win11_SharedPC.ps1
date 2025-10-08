@@ -17,7 +17,7 @@ Import-Module OSD -Force
 #=======================================================================
 $Params = @{
     OSVersion = "Windows 11"
-    OSBuild = "24H2"
+    OSBuild = "25H2"
     OSEdition = "Pro"
     OSLanguage = "en-GB"
     OSLicense = "Retail"
@@ -131,8 +131,8 @@ Start /Wait PowerShell -NoL -C Invoke-WebPSScript https://raw.githubusercontent.
 Start /Wait PowerShell -NoL -C Invoke-WebPSScript https://raw.githubusercontent.com/BrunelcareGit/OSDCloud/main/AP-Prereq.ps1
 Start /Wait PowerShell -NoL -C Invoke-WebPSScript https://raw.githubusercontent.com/BrunelcareGit/OSDCloud/main/Start-AutopilotOOBE.ps1
 Start /Wait PowerShell -NoL -C Start-OOBEDeploy
-Start /Wait PowerShell -NoL -C Invoke-WebPSScript https://raw.githubusercontent.com/BrunelcareGit/OSDCloud/main/TPM.ps1
-Start /Wait PowerShell -NoL -C Invoke-WebPSScript https://raw.githubusercontent.com/BrunelcareGit/OSDCloud/main/CleanUp.ps1
+# Start /Wait PowerShell -NoL -C Invoke-WebPSScript https://raw.githubusercontent.com/BrunelcareGit/OSDCloud/main/TPM.ps1
+# Start /Wait PowerShell -NoL -C Invoke-WebPSScript https://raw.githubusercontent.com/BrunelcareGit/OSDCloud/main/CleanUp.ps1
 Start /Wait PowerShell -NoL -C Restart-Computer -Force
 '@
 $OOBECMD | Out-File -FilePath 'C:\Windows\System32\Autopilot.cmd' -Encoding ascii -Force
